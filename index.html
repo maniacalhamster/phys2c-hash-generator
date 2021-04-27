@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <title> Phys 2C Hash Generator </title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="mystyle.css">
+        <script type="text/javascript" src="sha1.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1> Phys 2C Hash Generator </h1>
+        </header>
+
+        <main>
+            <h3> User input (can't automate this part) </h3>
+            <div class="input">
+                <label for="sid">Student ID</label>
+                <input type="id" id="sid" name="input_sid"/>
+            </div>
+            <div class="input">
+                <label for="name">Last Name</label>
+                <input type="string" id="name" name="input_name"/>
+            </div>
+
+            <h3> Reference for College & Major codes </h3>
+            <p>
+                After expanding the tables, click on the row of your College
+                and Major <br>
+                (I filtered out the majors so that's mosty STEM majors
+                show up - lmk if I filtered out your major and it's not in the 
+                table!)
+            </p>
+
+            <details>
+                <summary> College Codes (click to expand) </summary>
+                <p> Click on the row for the college you're in: </p>
+                <table id="colleges">
+                    <tr>
+                        <th> College </th>
+                        <th> Code </th>
+                    </tr>
+                    <tr>
+                        <td align="center"> Warren </td>
+                        <td align="center"> WA </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Revelle </td>
+                        <td align="center"> RE </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Muir </td>
+                        <td align="center"> MU </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Thurgood </td>
+                        <td align="center"> TH </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Roosevelt </td>
+                        <td align="center"> FI </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Sixth </td>
+                        <td align="center"> SI </td>
+                    </tr>
+                    <tr>
+                        <td align="center"> Seventh </td>
+                        <td align="center"> SN </td>
+                    </tr>
+                </table>
+                <script>
+                    var college = '';
+                    let colleges = document.getElementById('colleges');
+                    for (let r = 1; r < colleges.rows.length; r++) {
+                        let row  = colleges.rows[r];
+                        let cell = row.cells[1];
+                        row.onclick = () => { 
+                            resetCollegeRows();
+                            row.bgColor = 'goldenrod';
+                            college = cell.innerText;
+                            closeDetail();
+                            updateText();
+                        };
+                    }
+
+                    function resetCollegeRows() {
+                        for (let r = 1; r < colleges.rows.length; r++) {
+                            colleges.rows[r].bgColor = '';
+                        }
+                    }
+
+                    function closeDetail() {
+                        document.querySelectorAll('details').forEach((detail) => {
+                            detail.removeAttribute('open');
+                        });
+                    }
+                </script>
+            </details>
+
+            <details>
+                <summary> Most Major Codes (click to expand) </summary>
+                <p> Click on the row for the college you're in: </p>
+                <table id="majors">
+                    <tr>
+                        <th align="left">Department or program</th>
+                        <th align="left">Major code</th>
+                        <th align="left">Major</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"><a href="http://www-bioeng.ucsd.edu/undergrad/">Bioengineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>BE25</td>
+                        <td>Bioengineering</td>
+                    </tr>
+                    <tr>
+                        <td>BE28</td>
+                        <td>Bioengineering (Bioinformatics)</td>
+                    </tr>
+                    <tr>
+                        <td>BE29</td>
+                        <td>Bioengineering: BioSystems</td>
+                    </tr>
+                    <tr>
+                        <td>BE27</td>
+                        <td>Bioengineering (Biotechnology)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="18"><a href="http://www-biology.ucsd.edu/">Biology</a></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Available to students admitted to UCSD in Fall 2018 or later</td>
+                    </tr>
+                    <tr>
+                        <td>BI34</td>
+                        <td>Biology with Specialization in Bioinformatics</td>
+                    </tr>
+                    <tr>
+                        <td>BI30</td>
+                        <td>Ecology, Behavior, and Evolution</td>
+                    </tr>
+                    <tr>
+                        <td>BI31</td>
+                        <td>General Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI35</td>
+                        <td>Human Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI32</td>
+                        <td>Microbiology</td>
+                    </tr>
+                    <tr>
+                        <td>BI37</td>
+                        <td>Molecular and Cell Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI38</td>
+                        <td>Neurobiology</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Available to students admitted to UCSD in Fall 2017 or earlier</td>
+                    </tr>
+                    <tr>
+                        <td>BI29</td>
+                        <td>Biochemistry and Cell Biology (see also Chemistry and Biochemistry CH31)</td>
+                    </tr>
+                    <tr>
+                        <td>BI34</td>
+                        <td>Biology with Specialization in Bioinformatics</td>
+                    </tr>
+                    <tr>
+                        <td>BI30</td>
+                        <td>Ecology, Behavior, and Evolution</td>
+                    </tr>
+                    <tr>
+                        <td>BI31</td>
+                        <td>General Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI35</td>
+                        <td>Human Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI32</td>
+                        <td>Microbiology</td>
+                    </tr>
+                    <tr>
+                        <td>BI33</td>
+                        <td>Molecular Biology</td>
+                    </tr>
+                    <tr>
+                        <td>BI36</td>
+                        <td>Physiology and Neuroscience</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><a href="http://nanoengineering.ucsd.edu/graduate-programs/degree-programs">Chemical Engineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>CE25</td>
+                        <td>Chemical Engineering</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="6"><a href="http://www-chem.ucsd.edu/">Chemistry and Biochemistry</a></td>
+                    </tr>
+                    <tr>
+                        <td>CH38</td>
+                        <td>Biochemistry</td>
+                    </tr>
+                    <tr>
+                        <td>CH25</td>
+                        <td>Chemistry</td>
+                    </tr>
+                    <tr>
+                        <td>CH34</td>
+                        <td>Environmental Chemistry</td>
+                    </tr>
+                    <tr>
+                        <td>CH36</td>
+                        <td>Molecular Synthesis</td>
+                    </tr>
+                    <tr>
+                        <td>CH35</td>
+                        <td>Pharmacological Chemistry</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="8"><a href="http://www.cogsci.ucsd.edu/">Cognitive Science</a></td>
+                    </tr>
+                    <tr>
+                        <td>CG25</td>
+                        <td>Cognitive Science</td>
+                    </tr>
+                    <tr>
+                        <td>CG32</td>
+                        <td>Cognitive and Behavioral Neuroscience</td>
+                    </tr>
+                    <tr>
+                        <td>CG31</td>
+                        <td>Cognitive Science with a Specialization in Clinical Aspects of Cognition</td>
+                    </tr>
+                    <tr>
+                        <td>CG33</td>
+                        <td>Cognitive Science with a Specialization in Design and Interaction</td>
+                    </tr>
+                    <tr>
+                        <td>CG34</td>
+                        <td>Cognitive Science with a Specialization in Language and Culture</td>
+                    </tr>
+                    <tr>
+                        <td>CG35</td>
+                        <td>Cognitive Science with a Specialization in Machine Learning and Neural Computation</td>
+                    </tr>
+                    <tr>
+                        <td>CG29</td>
+                        <td>Cognitive Science with a Specialization in Neuroscience</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="4"><a href="http://www.cse.ucsd.edu/index.php">Computer Science and Engineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>CS25</td>
+                        <td>Computer Engineering (See also Electrical and Computer Engineering EC26)</td>
+                    </tr>
+                    <tr>
+                        <td>CS26</td>
+                        <td>Computer Science (B.S.)</td>
+                    </tr>
+                    <tr>
+                        <td>CS27</td>
+                        <td>Computer Science with a Specialization in Bioinformatics</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><a href="https://datascience.ucsd.edu/academics/undergraduate/">Data Science</a></td>
+                    </tr>
+                    <tr>
+                        <td>DS25</td>
+                        <td>Data Science</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"><a href="http://www.ece.ucsd.edu/">Electrical and Computer Engineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>EC26</td>
+                        <td>Computer Engineering (see also Computer Science and Engineering CS25)</td>
+                    </tr>
+                    <tr>
+                        <td>EC27</td>
+                        <td>Electrical Engineering</td>
+                    </tr>
+                    <tr>
+                        <td>EC28</td>
+                        <td>Engineering Physics</td>
+                    </tr>
+                    <tr>
+                        <td>EC37</td>
+                        <td>Electrical Engineering &amp; Society (B.A.)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"><a href="http://esys.ucsd.edu/">Environmental Systems</a></td>
+                    </tr>
+                    <tr>
+                        <td>ES25</td>
+                        <td>Environmental Systems (Earth Sciences)</td>
+                    </tr>
+                    <tr>
+                        <td>ES26</td>
+                        <td>Environmental Systems (Ecology, Behavior, and Evolution)</td>
+                    </tr>
+                    <tr>
+                        <td>ES27</td>
+                        <td>Environmental Systems (Environmental Chemistry)</td>
+                    </tr>
+                    <tr>
+                        <td>ES28</td>
+                        <td>Environmental Systems (Environmental Policy)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="8">Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td>IN27</td>
+                        <td>Eleanor Roosevelt College Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td>IN25</td>
+                        <td>Muir College Special Project Major</td>
+                    </tr>
+                    <tr>
+                        <td>IN26</td>
+                        <td>Revelle College Individual Major</td>
+                    </tr>
+                    <tr>
+                        <td>IN29</td>
+                        <td>Thurgood Marshall College Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td>IN28</td>
+                        <td>Warren College Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td>IN30</td>
+                        <td>Sixth College Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td>IN32</td>
+                        <td>Seventh College Individual Studies</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="9"><a href="http://math.ucsd.edu/">Mathematics</a></td>
+                    </tr>
+                    <tr>
+                        <td>MA33</td>
+                        <td>Joint Major Mathematics &amp; Economics</td>
+                    </tr>
+                    <tr>
+                        <td>MA29</td>
+                        <td>Mathematics</td>
+                    </tr>
+                    <tr>
+                        <td>MA27</td>
+                        <td>Mathematics (Applied)</td>
+                    </tr>
+                    <tr>
+                        <td>MA31</td>
+                        <td>Mathematics — Applied Science</td>
+                    </tr>
+                    <tr>
+                        <td>MA30</td>
+                        <td>Mathematics — Computer Science</td>
+                    </tr>
+                    <tr>
+                        <td>MA34</td>
+                        <td>Mathematics — Scientific Computation</td>
+                    </tr>
+                    <tr>
+                        <td>MA32</td>
+                        <td>Mathematics — Secondary Education</td>
+                    </tr>
+                    <tr>
+                        <td>MA35</td>
+                        <td>Probability &amp; Statistics</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="8"><a href="http://maeweb.ucsd.edu/">Mechanical and Aerospace Engineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>MC25</td>
+                        <td>Aerospace Engineering</td>
+                    </tr>
+                    <tr>
+                        <td>MC27</td>
+                        <td>Mechanical Engineering</td>
+                    </tr>
+                    <tr>
+                        <td>MC34</td>
+                        <td>Mechanical Engineering with a Specialization in Controls and Robotics</td>
+                    </tr>
+                    <tr>
+                        <td>MC33</td>
+                        <td>Mechanical Engineering with a Specialization in Fluid Mechanics and Thermal Systems</td>
+                    </tr>
+                    <tr>
+                        <td>MC32</td>
+                        <td>Mechanical Engineering with a Specialization in Materials Science and Engineering</td>
+                    </tr>
+                    <tr>
+                        <td>MC31</td>
+                        <td>Mechanical Engineering with a Specialization in Mechanics of Materials</td>
+                    </tr>
+                    <tr>
+                        <td>MC30</td>
+                        <td>Mechanical Engineering with a Specialization in Renewable Energy and Environmental Flows</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><a href="http://nanoengineering.ucsd.edu/">Nanoengineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>NA25</td>
+                        <td>Nanoengineering</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="9"><a href="http://physics.ucsd.edu/">Physics</a></td>
+                    </tr>
+                    <tr>
+                        <td>PY30</td>
+                        <td>General Physics</td>
+                    </tr>
+                    <tr>
+                        <td>PY31</td>
+                        <td>General Physics/ Secondary Education</td>
+                    </tr>
+                    <tr>
+                        <td>PY29</td>
+                        <td>Physics</td>
+                    </tr>
+                    <tr>
+                        <td>PY26</td>
+                        <td>Physics-Biophysics</td>
+                    </tr>
+                    <tr>
+                        <td>PY34</td>
+                        <td>Physics with a Specialization in Astrophysics</td>
+                    </tr>
+                    <tr>
+                        <td>PY33</td>
+                        <td>Physics with a Specialization in Computational Physics</td>
+                    </tr>
+                    <tr>
+                        <td>PY28</td>
+                        <td>Physics with a Specialization in Earth Sciences</td>
+                    </tr>
+                    <tr>
+                        <td>PY32</td>
+                        <td>Physics with a Specialization in Materials Physics</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="4"><a href="http://sio.ucsd.edu/">Scripps Institution of Oceanography</a></td>
+                    </tr>
+                    <tr>
+                        <td>SI28</td>
+                        <td>Earth Sciences</td>
+                    </tr>
+                    <tr>
+                        <td>SI29</td>
+                        <td>Marine Biology</td>
+                    </tr>
+                    <tr>
+                        <td>SI30</td>
+                        <td>Oceanic and Atmospheric Sciences</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><a href="http://structures.ucsd.edu/">Structural Engineering</a></td>
+                    </tr>
+                    <tr>
+                        <td>SE27</td>
+                        <td>Structural Engineering</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">Undeclared</td>
+                    </tr>
+                    <tr>
+                        <td>UN27</td>
+                        <td>Undeclared</td>
+                    </tr>
+                    <tr>
+                        <td>UNHA</td>
+                        <td>Undeclared — Humanities/ Arts</td>
+                    </tr>
+                    <tr>
+                        <td>UNPS</td>
+                        <td>Undeclared — Physical Sciences</td>
+                    </tr>
+                    <tr>
+                        <td>UNSS</td>
+                        <td>Undeclared — Social Sciences</td>
+                    </tr>
+                </table>
+                <script>
+                    var major = '';
+                    let majors = document.getElementById('majors');
+                    for (let r = 1; r < majors.rows.length; r++) {
+                        let row  = majors.rows[r];
+                        let cell = row.cells[0];
+
+                        if (row.cells.length > 1 && cell.innerText != "") {
+                            row.onclick = () => { 
+                                resetMajorRows();
+                                row.bgColor = 'goldenrod';
+                                major = cell.innerText;
+                                closeDetail();
+                                updateText();
+                            };
+                        }
+                        function resetMajorRows() {
+                            for (let r = 1; r < majors.rows.length; r++) {
+                                majors.rows[r].bgColor = '';
+                            }
+                        }
+                    }
+                </script>
+            </details>
+        </main>
+
+        <footer>
+            <!--
+                This commented out code was generated by a script I made but
+                I'm thinking I might just be able to have the user click on
+                the cells in the table to choose their College / Major
+            <div class="input">
+                <label for="college">College</label>
+                <select id="college" name="input_college">
+                    <option value="WA">Warren</option>
+                    <option value="RE">Revelle</option>
+                    <option value="MU">Muir</option>
+                    <option value="TH">Thurgood</option>
+                    <option value="FI">Roosevelt</option>
+                    <option value="SI">Sixth</option>
+                    <option value="SN">Seventh</option>
+                </select>
+            </div>
+            <div class="input">
+                <label for="major">Major</label>
+                <select id="major" name="input_major">
+                    <option value="BE25">Bioengineering</option>
+                    <option value="BE25"> Bioengineering </option>
+                    <option value="BE28"> Bioengineering (Bioinformatics) </option>
+                    <option value="BE29"> Bioengineering: BioSystems </option>
+                    <option value="BE27"> Bioengineering (Biotechnology) </option>
+                    <option value="BI34"> Biology with Specialization in Bioinformatics </option>
+                    <option value="BI30"> Ecology, Behavior, and Evolution </option>
+                    <option value="BI31"> General Biology </option>
+                    <option value="BI35"> Human Biology </option>
+                    <option value="BI32"> Microbiology </option>
+                    <option value="BI37"> Molecular and Cell Biology </option>
+                    <option value="BI38"> Neurobiology </option>
+                    <option value="BI29"> Biochemistry and Cell Biology (see also Chemistry and Biochemistry CH31) </option>
+                    <option value="BI34"> Biology with Specialization in Bioinformatics </option>
+                    <option value="BI30"> Ecology, Behavior, and Evolution </option>
+                    <option value="BI31"> General Biology </option>
+                    <option value="BI35"> Human Biology </option>
+                    <option value="BI32"> Microbiology </option>
+                    <option value="BI33"> Molecular Biology </option>
+                    <option value="BI36"> Physiology and Neuroscience </option>
+                    <option value="CE25"> Chemical Engineering </option>
+                    <option value="CH38"> Biochemistry </option>
+                    <option value="CH25"> Chemistry </option>
+                    <option value="CH34"> Environmental Chemistry </option>
+                    <option value="CH36"> Molecular Synthesis </option>
+                    <option value="CH35"> Pharmacological Chemistry </option>
+                    <option value="CG25"> Cognitive Science </option>
+                    <option value="CG32"> Cognitive and Behavioral Neuroscience </option>
+                    <option value="CG31"> Cognitive Science with a Specialization in Clinical Aspects of Cognition </option>
+                    <option value="CG33"> Cognitive Science with a Specialization in Design and Interaction </option>
+                    <option value="CG34"> Cognitive Science with a Specialization in Language and Culture </option>
+                    <option value="CG35"> Cognitive Science with a Specialization in Machine Learning and Neural Computation </option>
+                    <option value="CG29"> Cognitive Science with a Specialization in Neuroscience </option>
+                    <option value="CS25"> Computer Engineering (See also Electrical and Computer Engineering EC26) </option>
+                    <option value="CS26"> Computer Science (B.S.) </option>
+                    <option value="CS27"> Computer Science with a Specialization in Bioinformatics </option>
+                    <option value="DS25"> Data Science </option>
+                    <option value="EC26"> Computer Engineering (see also Computer Science and Engineering CS25) </option>
+                    <option value="EC27"> Electrical Engineering </option>
+                    <option value="EC28"> Engineering Physics </option>
+                    <option value="EC37"> Electrical Engineering & Society (B.A.) </option>
+                    <option value="ES25"> Environmental Systems (Earth Sciences) </option>
+                    <option value="ES26"> Environmental Systems (Ecology, Behavior, and Evolution) </option>
+                    <option value="ES27"> Environmental Systems (Environmental Chemistry) </option>
+                    <option value="ES28"> Environmental Systems (Environmental Policy) </option>
+                    <option value="IN27"> Eleanor Roosevelt College Individual Studies </option>
+                    <option value="IN25"> Muir College Special Project Major </option>
+                    <option value="IN26"> Revelle College Individual Major </option>
+                    <option value="IN29"> Thurgood Marshall College Individual Studies </option>
+                    <option value="IN28"> Warren College Individual Studies </option>
+                    <option value="IN30"> Sixth College Individual Studies </option>
+                    <option value="IN32"> Seventh College Individual Studies </option>
+                    <option value="MA33"> Joint Major Mathematics & Economics </option>
+                    <option value="MA29"> Mathematics </option>
+                    <option value="MA27"> Mathematics (Applied) </option>
+                    <option value="MA31"> Mathematics — Applied Science </option>
+                    <option value="MA30"> Mathematics — Computer Science </option>
+                    <option value="MA34"> Mathematics — Scientific Computation </option>
+                    <option value="MA32"> Mathematics — Secondary Education </option>
+                    <option value="MA35"> Probability & Statistics </option>
+                    <option value="MC25"> Aerospace Engineering </option>
+                    <option value="MC27"> Mechanical Engineering </option>
+                    <option value="MC34"> Mechanical Engineering with a Specialization in Controls and Robotics </option>
+                    <option value="MC33"> Mechanical Engineering with a Specialization in Fluid Mechanics and Thermal Systems </option>
+                    <option value="MC32"> Mechanical Engineering with a Specialization in Materials Science and Engineering </option>
+                    <option value="MC31"> Mechanical Engineering with a Specialization in Mechanics of Materials </option>
+                    <option value="MC30"> Mechanical Engineering with a Specialization in Renewable Energy and Environmental Flows </option>
+                    <option value="NA25"> Nanoengineering </option>
+                    <option value="PY30"> General Physics </option>
+                    <option value="PY31"> General Physics/ Secondary Education </option>
+                    <option value="PY29"> Physics </option>
+                    <option value="PY26"> Physics-Biophysics </option>
+                    <option value="PY34"> Physics with a Specialization in Astrophysics </option>
+                    <option value="PY33"> Physics with a Specialization in Computational Physics </option>
+                    <option value="PY28"> Physics with a Specialization in Earth Sciences </option>
+                    <option value="PY32"> Physics with a Specialization in Materials Physics </option>
+                    <option value="SI28"> Earth Sciences </option>
+                    <option value="SI29"> Marine Biology </option>
+                    <option value="SI30"> Oceanic and Atmospheric Sciences </option>
+                    <option value="SE27"> Structural Engineering </option>
+                    <option value="UN27"> Undeclared </option>
+                    <option value="UNHA"> Undeclared — Humanities/ Arts </option>
+                    <option value="UNPS"> Undeclared — Physical Sciences </option>
+                    <option value="UNSS"> Undeclared — Social Sciences </option>
+                </select>
+            </div>
+            -->
+
+            <h3> Resulting string </h3>
+            <div>
+                <span> String to be hashed: </span>
+                <span id='input_combined'/> 
+            </div>
+            <div>
+                <span> SHA1 hash digest: </span> 
+            </div>
+            <textarea id='input_hashed' class='noborder'> </textarea>
+            <a href="#" id='copy_hash' onclick="copy()"> [Copy to clipboard] </a>
+
+            <script>
+                let sid      = document.getElementById('sid');
+                let name     = document.getElementById('name');
+                let combined = document.getElementById('input_combined');
+                let hashed   = document.getElementById('input_hashed');
+                let copyHash = document.getElementById('copy_hash');
+
+                sid.addEventListener('change', updateText);
+                name.addEventListener('change', updateText);
+
+                function updateText() {
+                    let lname = name.value;
+                    let id    = sid.value;
+
+                    if (lname.length) {
+                        lname = name.value[0].toUpperCase();
+                        if (lname.length > 0) {
+                            lname += name.value.slice(1);
+                        }
+                    }
+
+                    if (id.length) {
+                        id = sid.value[0].toUpperCase();
+                        if (id.length > 0) {
+                            id += sid.value.slice(1);
+                        }
+                    }
+                                    
+                    combined.innerHTML = id+lname+college+major;
+
+                    if (!(id.length)) {
+                        hashed.value = 'Missing SID';
+                    } else if (!(lname.length)) {
+                        hashed.value = 'Missing last name';
+                    } else if (!(college.length)) {
+                        hashed.value = 'Missing college';
+                    } else if (!(major.length)) {
+                        hashed.value = 'Missing major';
+                    } else {
+                        hashed.value = hex_sha1(combined.innerHTML);
+                        copyHash.style.display = 'block';
+                    }
+                }
+
+                function copy() {
+                    hashed.select();
+                    hashed.setSelectionRange(0, 99999); /* For mobile devices? */
+
+                    document.execCommand("copy");
+                }
+            </script>
+        </footer>
+    </body>
+
+</html>
