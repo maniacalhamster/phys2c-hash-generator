@@ -507,7 +507,7 @@
                         let row  = majors.rows[r];
                         let cell = row.cells[0];
 
-                        if (row.cells.length > 1 && cell.innerText != "") {
+                        if (row.cells.length > 1 && cell.textContent != "") {
                             row.onclick = () => { 
                                 resetMajorRows();
                                 row.bgColor = 'goldenrod';
